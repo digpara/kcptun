@@ -29,6 +29,7 @@ GCFLAGS=""
 
 # AMD64 
 OSES=(linux darwin windows freebsd)
+OSES=(linux darwin)
 for os in ${OSES[@]}; do
 	suffix=""
 	if [ "$os" == "windows" ]
@@ -44,6 +45,7 @@ done
 
 # 386
 OSES=(linux windows)
+OSES=()
 for os in ${OSES[@]}; do
 	suffix=""
 	if [ "$os" == "windows" ]
@@ -59,6 +61,7 @@ done
 
 # ARM
 ARMS=(5 6 7)
+ARMS=()
 for v in ${ARMS[@]}; do
 	env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=$v go build -ldflags "$LDFLAGS" -gcflags "$GCFLAGS" -o client_linux_arm$v  github.com/xtaci/kcptun/client
 	env CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=$v go build -ldflags "$LDFLAGS" -gcflags "$GCFLAGS" -o server_linux_arm$v  github.com/xtaci/kcptun/server
@@ -68,20 +71,20 @@ $sum kcptun-linux-arm$v-$VERSION.tar.gz
 done
 
 # ARM64
-env CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags "$LDFLAGS" -gcflags "$GCFLAGS" -o client_linux_arm64  github.com/xtaci/kcptun/client
-env CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags "$LDFLAGS" -gcflags "$GCFLAGS" -o server_linux_arm64  github.com/xtaci/kcptun/server
-if $UPX; then upx -9 client_linux_arm64 server_linux_arm64*;fi
-tar -zcf kcptun-linux-arm64-$VERSION.tar.gz client_linux_arm64 server_linux_arm64
-$sum kcptun-linux-arm64-$VERSION.tar.gz
+# env CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags "$LDFLAGS" -gcflags "$GCFLAGS" -o client_linux_arm64  github.com/xtaci/kcptun/client
+# env CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags "$LDFLAGS" -gcflags "$GCFLAGS" -o server_linux_arm64  github.com/xtaci/kcptun/server
+# if $UPX; then upx -9 client_linux_arm64 server_linux_arm64*;fi
+# tar -zcf kcptun-linux-arm64-$VERSION.tar.gz client_linux_arm64 server_linux_arm64
+# $sum kcptun-linux-arm64-$VERSION.tar.gz
 
 #MIPS32LE
 env CGO_ENABLED=0 GOOS=linux GOARCH=mipsle GOMIPS=softfloat go build -ldflags "$LDFLAGS" -gcflags "$GCFLAGS" -o client_linux_mipsle github.com/xtaci/kcptun/client
 env CGO_ENABLED=0 GOOS=linux GOARCH=mipsle GOMIPS=softfloat go build -ldflags "$LDFLAGS" -gcflags "$GCFLAGS" -o server_linux_mipsle github.com/xtaci/kcptun/server
-env CGO_ENABLED=0 GOOS=linux GOARCH=mips GOMIPS=softfloat go build -ldflags "$LDFLAGS" -gcflags "$GCFLAGS" -o client_linux_mips github.com/xtaci/kcptun/client
-env CGO_ENABLED=0 GOOS=linux GOARCH=mips GOMIPS=softfloat go build -ldflags "$LDFLAGS" -gcflags "$GCFLAGS" -o server_linux_mips github.com/xtaci/kcptun/server
+# env CGO_ENABLED=0 GOOS=linux GOARCH=mips GOMIPS=softfloat go build -ldflags "$LDFLAGS" -gcflags "$GCFLAGS" -o client_linux_mips github.com/xtaci/kcptun/client
+# env CGO_ENABLED=0 GOOS=linux GOARCH=mips GOMIPS=softfloat go build -ldflags "$LDFLAGS" -gcflags "$GCFLAGS" -o server_linux_mips github.com/xtaci/kcptun/server
 
 if $UPX; then upx -9 client_linux_mips* server_linux_mips*;fi
 tar -zcf kcptun-linux-mipsle-$VERSION.tar.gz client_linux_mipsle server_linux_mipsle
-tar -zcf kcptun-linux-mips-$VERSION.tar.gz client_linux_mips server_linux_mips
+# tar -zcf kcptun-linux-mips-$VERSION.tar.gz client_linux_mips server_linux_mips
 $sum kcptun-linux-mipsle-$VERSION.tar.gz
-$sum kcptun-linux-mips-$VERSION.tar.gz
+# $sum kcptun-linux-mips-$VERSION.tar.gz
